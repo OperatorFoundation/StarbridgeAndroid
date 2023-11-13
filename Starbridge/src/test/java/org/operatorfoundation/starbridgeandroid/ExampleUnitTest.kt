@@ -19,7 +19,7 @@ import java.io.File
 class ExampleUnitTest {
     @Test
     fun testStarbridge() {
-        val configFile = File("/PathToConfig/StarbridgeClientConfig.json")
+        val configFile = File("/path/StarbridgeClientConfig.json")
         val configText = configFile.readText(Charsets.UTF_8)
 
         val customJson = Json {
