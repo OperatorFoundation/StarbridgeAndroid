@@ -2,6 +2,10 @@
 
 [Operator](https://operatorfoundation.org) makes usable tools to help people around the world with censorship, security, and privacy.
 
+# StarbridgeAndroid
+
+Starbridge is a Pluggable Transport that requires only minimal configuration information from the user. Under the hood, it uses the [Replicant](https://github.com/OperatorFoundation/ReplicantAndroid) Pluggable Transport technology for network protocol obfuscation. Replicant is more complex to configure, so Starbridge is a good starting point for those wanting to use the technology to circumvent Internet cenorship, but wanting a minimal amount of setup.
+
 ## Shapeshifter
 
 The Shapeshifter project provides network protocol shapeshifting technology
