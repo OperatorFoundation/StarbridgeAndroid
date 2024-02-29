@@ -9,3 +9,5 @@
 .cxx
 local.properties
 .idea/*
+.idea/gradle.xml
+.idea/kotlinc.xml
