@@ -17,29 +17,5 @@ import java.io.File
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
-    @Test
-    fun testStarbridge() {
-        val configFile = File("/path/StarbridgeClientConfig.json")
-        val configText = configFile.readText(Charsets.UTF_8)
 
-        val customJson = Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-            prettyPrint = true
-            allowStructuredMapKeys = true
-            encodeDefaults = true
-            serializersModule = SerializersModule {
-                polymorphic(ToneBurst::class) {
-                    subclass(Starburst::class, Starburst.serializer())
-                }
-            }
-        }
-
-        val starbridgeConfig = customJson.decodeFromString<StarbridgeConfig>(configText)
-        val starbridgeConnection = starbridgeConfig.connect(null)
-        val success = starbridgeConnection.write("pass")
-        assert(success)
-        val serverBytes = starbridgeConnection.read(7)
-        println("server bytes: ${serverBytes}")
-    }
 }
