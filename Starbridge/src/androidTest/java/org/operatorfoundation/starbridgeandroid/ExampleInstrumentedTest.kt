@@ -6,15 +6,12 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.operatorfoundation.keychainandroid.PublicKey
 import org.operatorfoundation.replicantandroid.Starburst
 import org.operatorfoundation.replicantandroid.ToneBurst
 import org.operatorfoundation.transmission.ConnectionType
 import org.operatorfoundation.transmission.TransmissionConnection
-import java.io.BufferedReader
 import java.io.File
-import java.io.InputStreamReader
 import java.util.logging.Logger
 
 /**
@@ -32,19 +29,36 @@ class ExampleInstrumentedTest
     {
 
         val logger: Logger? = null
-        val serverPublicKey = PublicKey.new("AgRNLkCxDNgg3mPQ+QYDfUK+gnTsIh9MvzgpGCVbEBsPZAsP+jK5GrXP9pPYRVnyGd6T0ggJ1MWa5Z8sYnh1+5Pm")
-        val starbridgeConfig = StarbridgeConfig("128.199.15.158:6456", serverPublicKey)
-        val starbridgeConnection = starbridgeConfig.connect(appContext, logger)
+        val serverPublicKey = PublicKey.new("")
+
+        println("Got server public key")
+
+        val starbridgeClientConfig = StarbridgeConfig("", serverPublicKey)
+
+        println("Initialized a StarbridgeClientConfig")
+
+        val connection = TransmissionConnection(starbridgeClientConfig.serverIP, starbridgeClientConfig.port, ConnectionType.TCP, logger)
+        val starbridgeConnection = starbridgeClientConfig.connect(connection, appContext, logger)
+
+        println("Made a Starbridge connection.")
+
         val success = starbridgeConnection.write("pass")
+        println("Wrote to server.")
+
         assert(success)
+
+        val read = starbridgeConnection.read(4)
+        if (read != null) {
+            println("Read ${read.size} bytes")
+        }
     }
 
     @Test
     fun testConnectWithExistingConnection()
     {
         val logger: Logger? = null
-        val serverPublicKey = PublicKey.new("AgRNLkCxDNgg3mPQ+QYDfUK+gnTsIh9MvzgpGCVbEBsPZAsP+jK5GrXP9pPYRVnyGd6T0ggJ1MWa5Z8sYnh1+5Pm")
-        val starbridgeConfig = StarbridgeConfig("128.199.15.158:6456", serverPublicKey)
+        val serverPublicKey = PublicKey.new("AgSRi3is8CElkrD/evIWliZJf8/QP5Dd5LPNZc9iB4CjUDZgEODcl0Rj6PKoA7qIoSDDJPT+eVVrQeboaGYZG6qH")
+        val starbridgeConfig = StarbridgeConfig("24.199.99.92:4567", serverPublicKey)
         val connection = TransmissionConnection(starbridgeConfig.serverIP, starbridgeConfig.port, ConnectionType.TCP, logger)
         val starbridgeConnection = starbridgeConfig.connect(connection, appContext, logger)
         val success = starbridgeConnection.write("pass")
