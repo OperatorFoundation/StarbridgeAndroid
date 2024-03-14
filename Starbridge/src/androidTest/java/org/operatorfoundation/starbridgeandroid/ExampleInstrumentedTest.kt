@@ -33,7 +33,7 @@ class ExampleInstrumentedTest
 
         println("Got server public key")
 
-        val starbridgeClientConfig = StarbridgeConfig("", serverPublicKey)
+        val starbridgeClientConfig = StarbridgeConfig("0.0.0.0:1234", serverPublicKey)
 
         println("Initialized a StarbridgeClientConfig")
 
@@ -42,15 +42,24 @@ class ExampleInstrumentedTest
 
         println("Made a Starbridge connection.")
 
-        val success = starbridgeConnection.write("pass")
+        val successString = "pass"
+        starbridgeConnection.write(successString)
         println("Wrote to server.")
 
-        assert(success)
+        val read = starbridgeConnection.read(successString.count())
 
-        val read = starbridgeConnection.read(4)
-        if (read != null) {
-            println("Read ${read.size} bytes")
+        if (read == null)
+        {
+            println("Tried to read but got no response.")
         }
+        else
+        {
+            val readString = String(read)
+            println("Read from server.")
+
+            assert(successString == readString)
+        }
+
     }
 
     @Test
